@@ -47,6 +47,14 @@ export function compare_birthday(a, b){
   else if (a.birthday > b.birthday) return 1;
   else return 0;
 }
+
+export function compare_meta(a, b, attr){
+  if (a.attr < b.attr) return -1;
+  else if (a.attr> b.attr) return 1;
+  else return 0;
+}
+
+
 //unordered.sort(compare);
 //ordered = unordered.sort(compare_team).reverse();
 //console.log(JSON.stringify(ordered));

@@ -1,7 +1,9 @@
-import { Component } from 'angular2/core';
+import { Component, OnInit } from 'angular2/core';
+import { Monkey } from './monkey';
 import { MONKEYS } from './mock-monkeys';
 import { OrderBy } from './orderBy';
 import * as Sort from './sort';
+import { MonkeyService } from './monkey.service';
 
 //import { AgGridNg2 } from 'ag-grid-ng2/main';
 
@@ -24,14 +26,14 @@ import * as Sort from './sort';
       <td>{{monkey.christian_name}}</td>
       <td>{{monkey.birthday}}</td>
     </tr>
-    <button (click)="clicked('id');">Click</button>
   </table>
   `,
-  pipes: [OrderBy]
+  providers: [MonkeyService]
   //directives: [AgGridNg2]
 })
-export class AppComponent {
-  public monkeys = MONKEYS;
+export class AppComponent implements OnInit {
+  //public monkeys = MONKEYS;
+  public monkeys:Monkey[];
   public sign = '+';
   public sort_type = Sort.compare_id;
   public sort_type_table = {
@@ -41,6 +43,15 @@ export class AppComponent {
     "christian_name": Sort.compare_christian_name,
     "birthday": Sort.compare_birthday
   };
+
+  constructor(private _monkeyService: MonkeyService){}
+  getMonkeys(){
+    this._monkeyService.getMonkeys().then(monkeys => this.monkeys = monkeys);
+  }
+
+  ngOnInit(){
+    this.getMonkeys();
+  }
 
   public clicked(sort_type){
     this.sort_type = this.sort_type_table[sort_type];
