@@ -4,8 +4,7 @@ import { MONKEYS } from './mock-monkeys';
 import { OrderBy } from './orderBy';
 import * as Sort from './sort';
 import { MonkeyService } from './monkey.service';
-
-//import { AgGridNg2 } from 'ag-grid-ng2/main';
+import { MonkeyEditComponent } from './monkey-edit.component'
 
 @Component({
   selector: 'my-app',
@@ -27,8 +26,10 @@ import { MonkeyService } from './monkey.service';
       <td>{{monkey.birthday}}</td>
     </tr>
   </table>
+  <monkey-edit></monkey-edit>
   `,
-  providers: [MonkeyService]
+  providers: [MonkeyService],
+  directives: [MonkeyEditComponent]
   //directives: [AgGridNg2]
 })
 export class AppComponent implements OnInit {

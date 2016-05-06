@@ -5,5 +5,7 @@ import 'es6-shim';
 import { bootstrap } from 'angular2/platform/browser';
 import { Component } from 'angular2/core';
 import { AppComponent } from './app.component';
+import { MonkeyEditComponent } from './monkey-edit.component';
 
 bootstrap( AppComponent );
+//bootstrap( MonkeyEditComponent );
