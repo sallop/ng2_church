@@ -4,7 +4,8 @@ import { MONKEYS } from './mock-monkeys';
 import { OrderBy } from './orderBy';
 import * as Sort from './sort';
 import { MonkeyService } from './monkey.service';
-import { MonkeyEditComponent } from './monkey-edit.component'
+import { MonkeyEditComponent } from './monkey-edit.component';
+import { FooComponent } from './foo.component';
 
 @Component({
   selector: 'my-app',
@@ -12,13 +13,13 @@ import { MonkeyEditComponent } from './monkey-edit.component'
   <h1>member of project mayhem</h1>
   <table>
     <thead>
-      <td (click)="clicked('id');">id</td>
-      <td (click)="clicked('team');">team</td>
-      <td (click)="clicked('name');">name</td>
-      <td (click)="clicked('christian_name');">christian name</td>
-      <td (click)="clicked('birthday');">birthday</td>
+      <td (click)="sorted('id');">id</td>
+      <td (click)="sorted('team');">team</td>
+      <td (click)="sorted('name');">name</td>
+      <td (click)="sorted('christian_name');">christian name</td>
+      <td (click)="sorted('birthday');">birthday</td>
     </thead>
-   <tr *ngFor="let monkey of monkeys">
+    <tr *ngFor="let monkey of monkeys" (click)="setEdit(monkey)">
       <td>{{monkey.id}}</td>
       <td>{{monkey.team}}</td>
       <td>{{monkey.name}}</td>
@@ -26,14 +27,14 @@ import { MonkeyEditComponent } from './monkey-edit.component'
       <td>{{monkey.birthday}}</td>
     </tr>
   </table>
-  <monkey-edit></monkey-edit>
+  <monkey-edit [monkey]="selectedMonkey"></monkey-edit>
   `,
   providers: [MonkeyService],
   directives: [MonkeyEditComponent]
-  //directives: [AgGridNg2]
 })
 export class AppComponent implements OnInit {
   //public monkeys = MONKEYS;
+  public selectedMonkey:Monkey = new Monkey(0,0,"monkey","monkey","1980/01/01");
   public monkeys:Monkey[];
   public sign = '+';
   public sort_type = Sort.compare_id;
@@ -52,9 +53,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.getMonkeys();
+    // console.log( this.monkeys );
+    // this.selectedMonkey = this.monkeys[0]; it doesn't load.
   }
 
-  public clicked(sort_type){
+  setEdit(monkey){
+    console.log(monkey);
+    this.selectedMonkey = monkey;
+  }
+
+  public sorted(sort_type){
     this.sort_type = this.sort_type_table[sort_type];
     if (this.sign == '+'){
       this.sign = this.sign == '+' ? '-' : '+';
